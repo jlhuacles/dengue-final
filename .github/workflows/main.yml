@@ -32,6 +32,7 @@ jobs:
           git config --local user.name "Github Action"
           git add -A
           git commit --allow-empty -m "update data daily dengue" -a
+          git push origin main
       - name: push my changes to github
         uses: ad-m/github-push-action@master
         with:
