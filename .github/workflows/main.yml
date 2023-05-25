@@ -1,7 +1,8 @@
 name: Scrape - ultimate
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
   schedule:
     - cron: '0 * * * *'
 
@@ -24,21 +25,29 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python scraping.py
+          
 
-      - name: commit my files
+      
+
+      - name: Check if there are any changes
+        id: verify_diff
         run: |
-          # git pull
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit
+        if: steps.verify_diff.outputs.changed == 'true'
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Github Action"
-          # git add -A
-          # git commit --allow-empty -m "update data daily dengue" -a
-          # git push origin main
-          git add indicadores_dengue_diario_distrito.xlsx
-          git commit -m "archivo actualizado"
-          git push origin main
-      # - name: push my changes to github
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{secrets.GITHUB_TOKEN}}
-      #     branch : main
+          git add .
+          git commit -m "Build" -a
+
+      - name: Push
+        if: steps.verify_diff.outputs.changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+
 
