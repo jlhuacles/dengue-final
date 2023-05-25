@@ -27,15 +27,18 @@ jobs:
 
       - name: commit my files
         run: |
-          git pull
+          # git pull
           git config --local user.email "action@github.com"
           git config --local user.name "Github Action"
-          git add -A
-          git commit --allow-empty -m "update data daily dengue" -a
+          # git add -A
+          # git commit --allow-empty -m "update data daily dengue" -a
+          # git push origin main
+          git add indicadores_dengue_diario_distrito.xlsx
+          git commit -m "archivo actualizado"
           git push origin main
-      - name: push my changes to github
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          branch : main
+      # - name: push my changes to github
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{secrets.GITHUB_TOKEN}}
+      #     branch : main
 
