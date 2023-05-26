@@ -50,6 +50,7 @@ jobs:
           branch: ${{ github.ref }}
 
   scraper-parseo:
+    needs: [scraper-dengue]
     runs-on: ubuntu-latest
 
     steps:
