@@ -25,9 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python scraping.py
-      - name: execute my second script
-        run: python buscara.py
-          
+     
 
       
 
@@ -51,5 +49,43 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 
+  scraper-parseo:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Removing previous chrome instances on runner 
+        run: sudo apt purge google-chrome-stable  
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: execute my python script 
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python buscara.py
+      
+
+      - name: Check if there are any changes
+        id: verify_diff
+        run: |
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit
+        if: steps.verify_diff.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Github Action"
+          git add .
+          git commit -m "Parseado" -a
+
+      - name: Push
+        if: steps.verify_diff.outputs.changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
 
