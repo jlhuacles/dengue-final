@@ -22,11 +22,11 @@ def distritalxProvincia(provincias):
         dfFinal = dfFinal.rename(columns={'Fallecidos*': 'Personas fallecidas'})
         dfFinal.replace(0.0, '', inplace=True)
         
-        filepath = Path(f'./dengue_diario-{provincia}.csv')  # doctest: +SKIP
-        filepath.parent.mkdir(parents=True, exist_ok=True)  # doctest: +SKIP
+        # filepath = Path(f'./dengue_diario-{provincia}.csv')  # doctest: +SKIP
+        # filepath.parent.mkdir(parents=True, exist_ok=True)  # doctest: +SKIP
         # df.to_csv(filepath)
 
-        dfFinal.to_csv(filepath, columns=['id','Distrito','Personas contagiadas','Incidencia*','Personas fallecidas'], index=False, encoding='utf-8')
+        dfFinal.to_csv(f"dengue_diario-{provincia}.csv", columns=['id','Distrito','Personas contagiadas','Incidencia*','Personas fallecidas'], index=False, encoding='utf-8')
         print(f'archivo guardado dengue_diario-{provincia}.csv')
 
 provincias = ["Lima", "Piura", "Loreto", "Ica", "Ucayali"]
