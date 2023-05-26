@@ -4,6 +4,7 @@ from datetime import datetime
 
 def distritalxProvincia(provincias):
     for provincia in provincias:
+        provincia = provincia.upper()
         df = pd.read_excel(f"central_table-{provincia}.xlsx")
         df1 = pd.read_excel("indicadores_dengue_diario_distrito.xlsx")
         df1.replace({"LA TINGUIÑA": "LA TINGUINA"})
